@@ -1,5 +1,7 @@
 from io import BytesIO
+import os
 import sys
+from tempfile import gettempdir
 from types import ModuleType
 
 from PIL import Image
@@ -25,11 +27,17 @@ def test_upload_limit_is_4_mb():
 
 
 def test_remove_background_returns_png(monkeypatch):
+    monkeypatch.delenv("U2NET_HOME", raising=False)
     output = BytesIO()
     Image.new("RGBA", (1, 1), (255, 0, 0, 0)).save(output, format="PNG")
     expected_png = output.getvalue()
     rembg = ModuleType("rembg")
-    rembg.new_session = lambda model: model
+
+    def new_session(model):
+        assert os.environ["U2NET_HOME"] == os.path.join(gettempdir(), "rembg")
+        return model
+
+    rembg.new_session = new_session
     rembg.remove = lambda image, session, **options: (
         expected_png
         if image

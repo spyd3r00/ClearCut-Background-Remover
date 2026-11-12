@@ -1,5 +1,7 @@
 from functools import lru_cache
 from io import BytesIO
+import os
+from tempfile import gettempdir
 
 from flask import Blueprint, current_app, jsonify, render_template, request, send_file
 from PIL import Image, UnidentifiedImageError
@@ -15,6 +17,7 @@ MODEL_OPTIONS = {
 
 @lru_cache(maxsize=2)
 def _get_rembg_session(model_name):
+    os.environ.setdefault("U2NET_HOME", os.path.join(gettempdir(), "rembg"))
     from rembg import new_session
 
     return new_session(model_name)
