@@ -95,8 +95,20 @@ form.addEventListener("submit", async (event) => {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => null);
-      throw new Error(error?.error || "Could not process this image. Please try another.");
+      const responseText = await response.text();
+      let errorMessage;
+      try {
+        errorMessage = JSON.parse(responseText).error;
+      } catch {
+        errorMessage = responseText
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 200);
+      }
+      throw new Error(
+        errorMessage || `Request failed with status ${response.status}.`,
+      );
     }
 
     const result = await response.blob();
