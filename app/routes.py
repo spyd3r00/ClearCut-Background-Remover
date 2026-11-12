@@ -61,6 +61,5 @@ def remove_background():
     result = remove(
         image_data,
         session=_get_rembg_session(MODEL_OPTIONS[model_choice]),
-        decontaminate=True,
     )
     return send_file(BytesIO(result), mimetype="image/png")

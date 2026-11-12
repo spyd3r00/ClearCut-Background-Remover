@@ -3,8 +3,7 @@
 A Flask website that removes image backgrounds with the CPU version of
 [rembg](https://github.com/danielgatis/rembg). It accepts PNG, JPG, and WebP
 images, then returns a transparent PNG. It uses the Photo / general image
-model by default, with edge decontamination enabled to reduce background-color
-fringing.
+model by default.
 
 ## Run locally on Windows
 

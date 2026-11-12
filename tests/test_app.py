@@ -38,11 +38,10 @@ def test_remove_background_returns_png(monkeypatch):
         return model
 
     rembg.new_session = new_session
-    rembg.remove = lambda image, session, **options: (
+    rembg.remove = lambda image, session: (
         expected_png
         if image
         and session == "isnet-general-use"
-        and options.get("decontaminate") is True
         else b""
     )
     monkeypatch.setitem(sys.modules, "rembg", rembg)
