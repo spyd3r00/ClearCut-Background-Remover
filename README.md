@@ -18,7 +18,7 @@ python main.py
 Open <http://127.0.0.1:5000>. On the first removal for each mode, rembg
 downloads its model to your user cache; later runs reuse it.
 
-Uploads are limited to 20 MB and 25 megapixels. The app returns results directly
+Uploads are limited to 4 MB and 25 megapixels. The app returns results directly
 to the browser and does not save uploaded or processed images.
 
 ## Run tests

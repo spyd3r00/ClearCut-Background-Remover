@@ -15,13 +15,13 @@ def test_home_page():
     assert b"Remove background" in response.data
     assert b"<select" not in response.data
     assert b'name="model"' not in response.data
-    assert b"up to 20 MB" in response.data
+    assert b"up to 4 MB" in response.data
 
 
-def test_upload_limit_is_20_mb():
+def test_upload_limit_is_4_mb():
     app = create_app()
 
-    assert app.config["MAX_CONTENT_LENGTH"] == 20 * 1024 * 1024 + 64 * 1024
+    assert app.config["MAX_CONTENT_LENGTH"] == 4 * 1024 * 1024 + 64 * 1024
 
 
 def test_remove_background_returns_png(monkeypatch):
