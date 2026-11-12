@@ -13,6 +13,8 @@ def test_home_page():
     assert response.status_code == 200
     assert b"Background Remover" in response.data
     assert b"Remove background" in response.data
+    assert b"<select" not in response.data
+    assert b'name="model"' not in response.data
 
 
 def test_remove_background_returns_png(monkeypatch):
@@ -22,7 +24,7 @@ def test_remove_background_returns_png(monkeypatch):
     rembg = ModuleType("rembg")
     rembg.new_session = lambda model: model
     rembg.remove = lambda image, session: (
-        expected_png if image and session == "isnet-anime" else b""
+        expected_png if image and session == "isnet-general-use" else b""
     )
     monkeypatch.setitem(sys.modules, "rembg", rembg)
 
@@ -30,7 +32,7 @@ def test_remove_background_returns_png(monkeypatch):
     Image.new("RGB", (1, 1), (255, 0, 0)).save(image, format="PNG")
     response = create_app().test_client().post(
         "/remove",
-        data={"image": (BytesIO(image.getvalue()), "photo.png"), "model": "anime"},
+        data={"image": (BytesIO(image.getvalue()), "photo.png")},
         content_type="multipart/form-data",
     )
 

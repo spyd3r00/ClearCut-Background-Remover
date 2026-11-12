@@ -31,7 +31,7 @@ def remove_background():
     if upload is None or not upload.filename:
         return jsonify(error="Choose an image to continue."), 400
 
-    model_choice = request.form.get("model", "anime")
+    model_choice = request.form.get("model", "general")
     if model_choice not in MODEL_OPTIONS:
         return jsonify(error="Choose a supported image type."), 400
 
